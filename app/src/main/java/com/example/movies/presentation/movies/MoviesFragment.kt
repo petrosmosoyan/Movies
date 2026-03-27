@@ -20,7 +20,10 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
     private var binding: FragmentMoviesBinding? = null
     private val viewModel: MoviesViewModel by viewModels()
 
-    private val adapter = MoviesAdapter()
+    private val adapter = MoviesAdapter(
+        onItemClick = { id -> navigateToDetails(id) },
+        onFavoriteClick = { movieId -> viewModel.toggleFavorite(movieId) }
+    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,6 +49,10 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
                 }
             }
         }
+    }
+
+    private fun navigateToDetails(id: Int) {
+
     }
 
     override fun onDestroyView() {

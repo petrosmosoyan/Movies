@@ -6,12 +6,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.movies.R
 import com.example.movies.databinding.ItemMovieBinding
 import com.example.movies.domain.model.Movie
 
 class MoviesAdapter(
     val onItemClick: (Int) -> Unit,
-    val onFavoriteClick: (Movie) -> Unit
+    val onFavoriteClick: (Int) -> Unit
 ) : ListAdapter<Movie, MoviesAdapter.MyViewHolder>(MoviesDiffUtil()) {
 
     override fun onCreateViewHolder(
@@ -32,15 +33,24 @@ class MoviesAdapter(
     class MyViewHolder(
         val binding: ItemMovieBinding,
         val onItemClick: (Int) -> Unit,
-        val onFavoriteClick: (Movie) -> Unit
+        val onFavoriteClick: (Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Movie) {
             binding.run {
                 title.text = item.title
                 Glide.with(root.context).load(item.poster).into(poster)
 
-                root.setOnClickListener { onItemClick(item.id ?: return@setOnClickListener) }
-                favorite.setOnClickListener { onFavoriteClick(item) }
+                val favoriteIcon =
+                    if (item.isFavorite) R.drawable.ic_favorite_filled
+                    else R.drawable.ic_favorite
+                favorite.setImageResource(favoriteIcon)
+
+                root.setOnClickListener {
+                    onItemClick(item.id ?: return@setOnClickListener)
+                }
+                favorite.setOnClickListener {
+                    onFavoriteClick(item.id ?: return@setOnClickListener)
+                }
             }
         }
     }

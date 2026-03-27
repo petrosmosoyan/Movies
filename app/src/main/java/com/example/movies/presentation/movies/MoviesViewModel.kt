@@ -2,13 +2,16 @@ package com.example.movies.presentation.movies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movies.domain.use_case.GetFavoritesUseCase
 import com.example.movies.domain.use_case.GetMoviesUseCase
 import com.example.movies.domain.use_case.RefreshMoviesUseCase
+import com.example.movies.domain.use_case.ToggleFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,7 +19,9 @@ import javax.inject.Inject
 @HiltViewModel
 class MoviesViewModel @Inject constructor(
     private val getMoviesUseCase: GetMoviesUseCase,
-    private val refreshMoviesUseCase: RefreshMoviesUseCase
+    private val refreshMoviesUseCase: RefreshMoviesUseCase,
+    private val getFavoritesUseCase: GetFavoritesUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
 
     private val _moviesUIState = MutableStateFlow(MoviesUiState())
@@ -28,11 +33,16 @@ class MoviesViewModel @Inject constructor(
     }
 
     fun getMovies() {
-        getMoviesUseCase()
-            .onEach { movies ->
-                _moviesUIState.update { uiState -> uiState.copy(movies = movies) }
+        combine(
+            getMoviesUseCase(),
+            getFavoritesUseCase()
+        ) { movies, favorites ->
+            val list = movies.map { movie ->
+                movie.copy(isFavorite = favorites.contains(movie.id))
             }
-            .launchIn(viewModelScope)
+
+            _moviesUIState.update { it.copy(movies = list) }
+        }.launchIn(viewModelScope)
     }
 
     fun refreshMovies() {
@@ -46,5 +56,9 @@ class MoviesViewModel @Inject constructor(
                 _moviesUIState.update { it.copy(isLoading = false, error = msg) }
             }
         }
+    }
+
+    fun toggleFavorite(movieId: Int) {
+        viewModelScope.launch(Dispatchers.IO) { toggleFavoriteUseCase(movieId) }
     }
 }
