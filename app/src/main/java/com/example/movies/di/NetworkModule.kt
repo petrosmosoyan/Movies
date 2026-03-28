@@ -2,6 +2,7 @@ package com.example.movies.di
 
 import com.example.movies.common.Constants.BASE_URL
 import com.example.movies.data.remote.api.MovieApi
+import com.example.movies.data.remote.interceptor.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +25,7 @@ class NetworkModule {
 
         val client = OkHttpClient.Builder()
             .addInterceptor(interceptor)
+            .addInterceptor(AuthInterceptor())
             .build()
 
         return client
