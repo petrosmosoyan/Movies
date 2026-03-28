@@ -19,6 +19,6 @@ interface FavoriteDao {
     @Delete
     fun removeFavorite(item: FavoriteEntity)
 
-    @Query("SELECT EXISTS(SELECT 1 FROM favorites WHERE id = :id)")
+    @Query("SELECT EXISTS(SELECT * FROM favorites WHERE id = :id)")
     fun isFavorite(id: Int): Boolean
 }

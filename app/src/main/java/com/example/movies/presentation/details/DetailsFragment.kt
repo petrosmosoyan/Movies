@@ -30,6 +30,10 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
+
+            favorite.setOnClickListener {
+                viewModel.toggleFavorite()
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -56,6 +60,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             overviewText.text = details.overview
             budgetText.text = budget
             revenueText.text = revenue
+
+            val favoriteIcon = if (details.isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite
+            favorite.setImageResource(favoriteIcon)
         }
     }
 

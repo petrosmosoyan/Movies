@@ -10,4 +10,5 @@ data class Details(
     val budget: Int? = null,
     val revenue: Int? = null,
     val homePage: String? = null,
+    val isFavorite: Boolean = false
 )

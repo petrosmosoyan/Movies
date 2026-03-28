@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movies.domain.use_case.MovieDetailsUseCase
 import com.example.movies.domain.use_case.RefreshMovieDetailsUseCase
+import com.example.movies.domain.use_case.ToggleFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -19,7 +21,8 @@ import javax.inject.Inject
 class DetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val movieDetailsUseCase: MovieDetailsUseCase,
-    private val refreshMovieDetailsUseCase: RefreshMovieDetailsUseCase
+    private val refreshMovieDetailsUseCase: RefreshMovieDetailsUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
 
     private val movieId: Int? = savedStateHandle["movieId"]
@@ -48,6 +51,13 @@ class DetailsViewModel @Inject constructor(
             _detailsUIState.update { it.copy(isLoading = true) }
             refreshMovieDetailsUseCase(movieId)
             _detailsUIState.update { it.copy(isLoading = false) }
+        }
+    }
+
+    fun toggleFavorite() {
+        movieId ?: return
+        viewModelScope.launch(Dispatchers.IO) {
+            toggleFavoriteUseCase(movieId)
         }
     }
 }
