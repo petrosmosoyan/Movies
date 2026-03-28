@@ -38,6 +38,8 @@ class MoviesAdapter(
         fun bind(item: Movie) {
             binding.run {
                 title.text = item.title
+                releaseDate.text = item.releaseDate?.take(4) ?: ""
+
                 Glide.with(root.context).load(item.posterPath).into(poster)
 
                 val favoriteIcon =

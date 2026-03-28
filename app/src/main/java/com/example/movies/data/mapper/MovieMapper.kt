@@ -32,7 +32,8 @@ fun DetailsDto.toEntity() = MovieEntity(
 fun MovieEntity.toMovie(): Movie = Movie(
     id = id,
     title = title,
-    posterPath = "https://image.tmdb.org/t/p/w500$posterPath"
+    posterPath = "https://image.tmdb.org/t/p/w500$posterPath",
+    releaseDate = releaseDate,
 )
 
 fun MovieEntity.toDetails(): Details = Details(
