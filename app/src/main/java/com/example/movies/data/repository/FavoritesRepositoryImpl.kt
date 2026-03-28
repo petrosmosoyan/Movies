@@ -28,7 +28,7 @@ class FavoritesRepositoryImpl @Inject constructor(
                 list.map { it.toFavorite() }
             }
         }
-    
+
     override suspend fun toggleFavorite(movieId: Int) {
         val isFavorite = favoriteDao.isFavorite(movieId)
 
