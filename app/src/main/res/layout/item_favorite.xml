@@ -51,7 +51,7 @@
             tools:text="Harry Potter And The Order Of Phoenix" />
 
         <TextView
-            android:id="@+id/subtitle"
+            android:id="@+id/releaseDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -70,13 +70,14 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@id/title"
             app:layout_constraintStart_toStartOf="@id/title"
-            app:layout_constraintTop_toBottomOf="@id/subtitle"
+            app:layout_constraintTop_toBottomOf="@id/releaseDate"
             tools:text="★ 8.4 / 10" />
 
         <ImageView
             android:id="@+id/deleteFavorite"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
             android:src="@drawable/ic_favorite_filled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -2,8 +2,8 @@ package com.example.movies.data.repository
 
 import com.example.movies.data.local.dao.MovieDao
 import com.example.movies.data.mapper.toDetails
-import com.example.movies.data.mapper.toMovie
 import com.example.movies.data.mapper.toEntity
+import com.example.movies.data.mapper.toMovie
 import com.example.movies.data.remote.api.MovieApi
 import com.example.movies.domain.model.Details
 import com.example.movies.domain.model.Movie

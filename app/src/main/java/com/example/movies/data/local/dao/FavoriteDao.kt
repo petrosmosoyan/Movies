@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface FavoriteDao {
 
     @Query("SELECT * FROM favorites")
-    fun getFavorites(): Flow<List<FavoriteEntity>>
+    fun getFavoritesIds(): Flow<List<FavoriteEntity>>
 
     @Insert
     fun addFavorite(item: FavoriteEntity)

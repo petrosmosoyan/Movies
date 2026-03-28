@@ -13,7 +13,7 @@ class MoviesUseCase @Inject constructor(
 ) {
     operator fun invoke(): Flow<List<Movie>> = combine(
         movieRepository.getMovies(),
-        favoritesRepository.getFavorites()
+        favoritesRepository.getFavoriteIds()
     ) { movies, favorites ->
         movies.map { movie ->
             movie.copy(isFavorite = favorites.contains(movie.id))

@@ -8,26 +8,45 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movies.databinding.ItemFavoriteBinding
 import com.example.movies.domain.model.Favorite
+import java.util.Locale
 
-class FavoritesAdapter : ListAdapter<Favorite, FavoritesAdapter.MyViewHolder>(FavoriteDiffUtil()) {
+class FavoritesAdapter(val onItemClick: (Int) -> Unit, val onDeleteClick: (Int) -> Unit) :
+    ListAdapter<Favorite, FavoritesAdapter.MyViewHolder>(FavoriteDiffUtil()) {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         p1: Int
     ): MyViewHolder {
         val binding =
             ItemFavoriteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MyViewHolder(binding)
+        return MyViewHolder(binding, onItemClick, onDeleteClick)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
-    class MyViewHolder(val binding: ItemFavoriteBinding) : RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(
+        val binding: ItemFavoriteBinding,
+        val onItemClick: (Int) -> Unit,
+        val onDeleteClick: (Int) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Favorite) {
             binding.run {
+                val ratingValue = item.voteAverage ?: 0.0
+                val voteAverage = "★ ${String.format(Locale.US, "%.1f", ratingValue)} / 10"
+
                 title.text = item.title
+                rating.text = voteAverage
+                releaseDate.text = item.releaseDate
                 Glide.with(root.context).load(item.posterPath).into(poster)
+
+                root.setOnClickListener {
+                    onItemClick(item.id ?: return@setOnClickListener)
+                }
+
+                deleteFavorite.setOnClickListener {
+                    onDeleteClick(item.id ?: return@setOnClickListener)
+                }
             }
         }
     }

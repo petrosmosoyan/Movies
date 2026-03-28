@@ -11,7 +11,7 @@ class MovieDetailsUseCase @Inject constructor(
 ) {
     operator fun invoke(movieId: Int) = combine(
         movieRepository.getMovieDetails(movieId),
-        favoritesRepository.getFavorites()
+        favoritesRepository.getFavoriteIds()
     ) { details, isFavorite ->
         details.copy(isFavorite = isFavorite.contains(movieId))
     }
