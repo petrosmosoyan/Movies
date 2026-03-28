@@ -27,7 +27,7 @@ class FavoritesAdapter : ListAdapter<Favorite, FavoritesAdapter.MyViewHolder>(Fa
         fun bind(item: Favorite) {
             binding.run {
                 title.text = item.title
-                Glide.with(root.context).load(item.poster).into(poster)
+                Glide.with(root.context).load(item.posterPath).into(poster)
             }
         }
     }

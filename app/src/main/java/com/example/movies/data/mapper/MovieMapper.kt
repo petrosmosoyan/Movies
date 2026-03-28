@@ -4,6 +4,7 @@ import com.example.movies.data.local.entity.MovieEntity
 import com.example.movies.data.remote.dto.details.DetailsDto
 import com.example.movies.data.remote.dto.movies.MovieDto
 import com.example.movies.domain.model.Details
+import com.example.movies.domain.model.Favorite
 import com.example.movies.domain.model.Movie
 
 fun MovieDto.toEntity(): MovieEntity = MovieEntity(
@@ -34,6 +35,14 @@ fun MovieEntity.toMovie(): Movie = Movie(
     title = title,
     posterPath = "https://image.tmdb.org/t/p/w500$posterPath",
     releaseDate = releaseDate,
+)
+
+fun MovieEntity.toFavorite(): Favorite = Favorite(
+    id = id,
+    title = title,
+    posterPath = "https://image.tmdb.org/t/p/w500$posterPath",
+    releaseDate = releaseDate,
+    voteAverage = voteAverage
 )
 
 fun MovieEntity.toDetails(): Details = Details(
