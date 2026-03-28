@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.safeargs)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
 }
