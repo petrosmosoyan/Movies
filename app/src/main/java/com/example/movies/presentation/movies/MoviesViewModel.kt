@@ -2,7 +2,7 @@ package com.example.movies.presentation.movies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movies.domain.use_case.GetMoviesUseCase
+import com.example.movies.domain.use_case.MoviesUseCase
 import com.example.movies.domain.use_case.RefreshMoviesUseCase
 import com.example.movies.domain.use_case.ToggleFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MoviesViewModel @Inject constructor(
-    private val getMoviesUseCase: GetMoviesUseCase,
+    private val moviesUseCase: MoviesUseCase,
     private val refreshMoviesUseCase: RefreshMoviesUseCase,
     private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ) : ViewModel() {
@@ -31,7 +31,7 @@ class MoviesViewModel @Inject constructor(
     }
 
     fun getMovies() {
-        getMoviesUseCase()
+        moviesUseCase()
             .onEach { movies ->
                 _moviesUIState.update { it.copy(movies = movies) }
             }

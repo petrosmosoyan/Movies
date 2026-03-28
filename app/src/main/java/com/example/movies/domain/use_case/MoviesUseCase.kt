@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
-class GetMoviesUseCase @Inject constructor(
+class MoviesUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val favoritesRepository: FavoritesRepository
 ) {
