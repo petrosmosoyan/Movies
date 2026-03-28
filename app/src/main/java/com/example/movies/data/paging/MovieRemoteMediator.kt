@@ -52,9 +52,13 @@ class MovieRemoteMediator(
                     RemoteKeyEntity(movieId = it.id, nextKey = nextKey)
                 } ?: emptyList()
 
+                val movies = result.movieDtos?.mapIndexed { index, dto ->
+                    val position = ((loadKey - 1) * 20) + index // Assuming 20 items per page
+                    dto.toEntity(orderIndex = position)
+                }
+
                 appDatabase.remoteKeyDao().insertAll(keys)
-                appDatabase.moviesDao()
-                    .insertAll(result.movieDtos?.map { it.toEntity() } ?: emptyList())
+                appDatabase.moviesDao().insertAll(movies ?: emptyList())
             }
 
             MediatorResult.Success(

@@ -10,9 +10,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import com.example.movies.R
 import com.example.movies.databinding.FragmentMoviesBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -39,14 +41,21 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
         binding?.run {
             recyclerView.adapter = adapter
-            swipeView.setOnRefreshListener { viewModel.refreshMovies() }
+            swipeView.setOnRefreshListener { adapter.refresh() }
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.moviesPagingData.collect {
-//                    binding?.swipeView?.isRefreshing = it.pagingMovies
-                    adapter.submitData(it)
+                launch {
+                    viewModel.moviesPagingData.collectLatest {
+                        adapter.submitData(it)
+                    }
+                }
+
+                launch {
+                    adapter.loadStateFlow.collect { loadStates ->
+                        binding?.swipeView?.isRefreshing = loadStates.refresh is LoadState.Loading
+                    }
                 }
             }
         }

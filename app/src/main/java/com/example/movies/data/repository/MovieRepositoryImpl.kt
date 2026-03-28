@@ -25,15 +25,9 @@ class MovieRepositoryImpl @Inject constructor(
     private val movieDao: MovieDao,
 ) : MovieRepository {
 
-    override suspend fun refreshMovies() {
-        val response = movieApi.getMovies()
-        val movies = response.movieDtos ?: return
-        movieDao.insertAll(movies.map { it.toEntity() })
-    }
-
     override suspend fun refreshMovieDetails(movieId: Int) {
         val response = movieApi.getDetails(movieId = movieId)
-        movieDao.updateMovie(response.toEntity())
+        movieDao.updateMovie(response.toEntity(0))
     }
 
     @OptIn(ExperimentalPagingApi::class)
@@ -42,6 +36,7 @@ class MovieRepositoryImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = 20,
                 prefetchDistance = 5,
+                initialLoadSize = 20
             ),
             remoteMediator = MovieRemoteMediator(
                 movieApi = movieApi,

@@ -7,8 +7,9 @@ import com.example.movies.domain.model.Details
 import com.example.movies.domain.model.Favorite
 import com.example.movies.domain.model.Movie
 
-fun MovieDto.toEntity(): MovieEntity = MovieEntity(
+fun MovieDto.toEntity(orderIndex: Int): MovieEntity = MovieEntity(
     id = id,
+    orderIndex = orderIndex,
     title = title,
     overview = overview,
     posterPath = posterPath,
@@ -17,8 +18,9 @@ fun MovieDto.toEntity(): MovieEntity = MovieEntity(
     voteAverage = voteAverage,
 )
 
-fun DetailsDto.toEntity() = MovieEntity(
+fun DetailsDto.toEntity(orderIndex: Int) = MovieEntity(
     id = id,
+    orderIndex = orderIndex,
     title = title,
     overview = overview,
     posterPath = posterPath,

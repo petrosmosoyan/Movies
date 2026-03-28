@@ -13,7 +13,7 @@ interface MovieDao {
     @Upsert
     suspend fun insertAll(list: List<MovieEntity>)
 
-    @Query("SELECT * FROM movies")
+    @Query("SELECT * FROM movies ORDER BY orderIndex ASC")
     fun moviesPaging(): PagingSource<Int, MovieEntity>
 
     @Query("SELECT * FROM movies WHERE id IN (:userIds)")
