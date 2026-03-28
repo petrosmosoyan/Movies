@@ -1,5 +1,6 @@
 package com.example.movies.di
 
+import com.example.movies.BuildConfig
 import com.example.movies.common.Constants.BASE_URL
 import com.example.movies.data.remote.api.MovieApi
 import com.example.movies.data.remote.interceptor.AuthInterceptor
@@ -20,11 +21,15 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideClient(): OkHttpClient {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = if (BuildConfig.DEBUG) {
+            HttpLoggingInterceptor.Level.BODY
+        } else {
+            HttpLoggingInterceptor.Level.NONE
+        }
 
         val client = OkHttpClient.Builder()
-            .addInterceptor(interceptor)
+            .addInterceptor(loggingInterceptor)
             .addInterceptor(AuthInterceptor())
             .build()
 

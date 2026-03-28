@@ -1,6 +1,6 @@
 package com.example.movies.data.remote.interceptor
 
-import com.example.movies.common.Constants.APY_KEY
+import com.example.movies.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -12,12 +12,10 @@ class AuthInterceptor : Interceptor {
             .newBuilder()
             .addHeader(
                 "Authorization",
-                "Bearer $APY_KEY"
+                "Bearer ${BuildConfig.TMDB_API_KEY}"
             )
             .build()
 
-
         return chain.proceed(requestWithAuth)
     }
-
 }
