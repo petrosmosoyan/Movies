@@ -2,9 +2,6 @@ package com.example.movies.presentation.details
 
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -30,15 +27,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         binding = FragmentDetailsBinding.bind(view)
 
         binding?.run {
-            ViewCompat.setOnApplyWindowInsetsListener(toolbar) { v, insets ->
-                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-
-                val params = v.layoutParams as ViewGroup.MarginLayoutParams
-                params.topMargin = systemBars.top
-                root.layoutParams = params
-                insets
-            }
-
             toolbar.setNavigationOnClickListener {
                 findNavController().popBackStack()
             }

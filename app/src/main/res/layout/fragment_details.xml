@@ -39,8 +39,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:navigationIcon="@drawable/ic_back"
-                app:layout_collapseMode="pin" />
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_back" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -130,59 +130,61 @@
                 app:layout_constraintTop_toBottomOf="@id/overviewTitle"
                 tools:text="The adventures of a group of explorers who make use of a newly discovered wormhole..." />
 
-            <GridLayout
-                android:layout_width="match_parent"
+
+            <LinearLayout
+                android:id="@+id/budgetLyt"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
                 android:layout_marginTop="24dp"
-                android:columnCount="2"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/revenueLyt"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/overviewText">
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:text="@string/budget"
+                    android:textColor="#BDBDBD"
+                    android:textSize="12sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/budget"
-                        android:textColor="#BDBDBD"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/budgetText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        tools:text="$165,000,000" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/budgetText"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    tools:text="$165,000,000" />
+            </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/revenue"
-                        android:textColor="#BDBDBD"
-                        android:textSize="12sp" />
+            <LinearLayout
+                android:id="@+id/revenueLyt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_columnWeight="1"
+                android:orientation="vertical"
+                android:padding="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/budgetLyt"
+                app:layout_constraintTop_toTopOf="@+id/budgetLyt">
 
-                    <TextView
-                        android:id="@+id/revenueText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/white"
-                        android:textStyle="bold"
-                        tools:text="$701,729,206" />
-                </LinearLayout>
-            </GridLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/revenue"
+                    android:textColor="#BDBDBD"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/revenueText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    tools:text="$701,729,206" />
+            </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
