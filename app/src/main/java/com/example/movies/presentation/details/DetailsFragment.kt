@@ -25,7 +25,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.detailsUIState.collect { uiState ->
-                    val c = ""
+
                 }
             }
         }

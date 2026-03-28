@@ -1,7 +1,8 @@
 package com.example.movies.data.repository
 
 import com.example.movies.data.local.dao.MovieDao
-import com.example.movies.data.mapper.toDomain
+import com.example.movies.data.mapper.toDetails
+import com.example.movies.data.mapper.toMovie
 import com.example.movies.data.mapper.toEntity
 import com.example.movies.data.remote.api.MovieApi
 import com.example.movies.domain.model.Details
@@ -22,12 +23,15 @@ class MovieRepositoryImpl @Inject constructor(
         movieDao.insertAll(movies.map { it.toEntity() })
     }
 
-    override fun getMovies(): Flow<List<Movie>> = movieDao.getMovies().map { list ->
-        list.map { it.toDomain() }
+    override suspend fun refreshMovieDetails(movieId: Int) {
+        val response = movieApi.getDetails(movieId = movieId)
+        movieDao.updateMovie(response.toEntity())
     }
 
-    override suspend fun getMovieDetails(movieId: Int): Details {
-        val response = movieApi.getDetails(movieId = movieId)
-        return response.toDomain()
+    override fun getMovies(): Flow<List<Movie>> = movieDao.getMovies().map { list ->
+        list.map { it.toMovie() }
     }
+
+    override fun getMovieDetails(movieId: Int): Flow<Details> =
+        movieDao.getMovieDetails(movieId).map { it.toDetails() }
 }

@@ -8,28 +8,41 @@ import com.example.movies.domain.model.Movie
 
 fun MovieDto.toEntity(): MovieEntity = MovieEntity(
     id = id,
-    adult = adult,
-    backdropPath = backdropPath,
-    originalLanguage = originalLanguage,
-    originalTitle = originalTitle,
-    overview = overview,
-    popularity = popularity,
-    posterPath = posterPath,
-    releaseDate = releaseDate,
     title = title,
-    video = video,
+    overview = overview,
+    posterPath = posterPath,
+    backdropPath = backdropPath,
+    releaseDate = releaseDate,
     voteAverage = voteAverage,
-    voteCount = voteCount
 )
 
-fun MovieEntity.toDomain(): Movie = Movie(
+fun DetailsDto.toEntity() = MovieEntity(
     id = id,
     title = title,
-    poster = "https://image.tmdb.org/t/p/w500$posterPath"
+    overview = overview,
+    posterPath = posterPath,
+    backdropPath = backdropPath,
+    releaseDate = releaseDate,
+    voteAverage = voteAverage,
+    budget = budget,
+    revenue = revenue,
+    homePage = homepage
 )
 
-fun DetailsDto.toDomain(): Details = Details(
+fun MovieEntity.toMovie(): Movie = Movie(
+    id = id,
     title = title,
-    poster = "https://image.tmdb.org/t/p/w500$posterPath",
-    overview = overview
+    posterPath = "https://image.tmdb.org/t/p/w500$posterPath"
+)
+
+fun MovieEntity.toDetails(): Details = Details(
+    title = title,
+    overview = overview,
+    posterPath = "https://image.tmdb.org/t/p/w500$posterPath",
+    backdropPath = "https://image.tmdb.org/t/p/w500$backdropPath",
+    releaseDate = releaseDate,
+    voteAverage = voteAverage,
+    budget = budget,
+    revenue = revenue,
+    homePage = homePage,
 )

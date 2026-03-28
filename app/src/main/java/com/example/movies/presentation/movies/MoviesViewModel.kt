@@ -6,6 +6,7 @@ import com.example.movies.domain.use_case.MoviesUseCase
 import com.example.movies.domain.use_case.RefreshMoviesUseCase
 import com.example.movies.domain.use_case.ToggleFavoriteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,6 +26,10 @@ class MoviesViewModel @Inject constructor(
     private val _moviesUIState = MutableStateFlow(MoviesUiState())
     val moviesUIState = _moviesUIState.asStateFlow()
 
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        _moviesUIState.update { it.copy(isLoading = false, error = throwable.message) }
+    }
+
     init {
         getMovies()
         refreshMovies()
@@ -39,15 +44,10 @@ class MoviesViewModel @Inject constructor(
     }
 
     fun refreshMovies() {
-        viewModelScope.launch {
-            try {
-                _moviesUIState.update { it.copy(isLoading = true) }
-                refreshMoviesUseCase()
-                _moviesUIState.update { it.copy(isLoading = false) }
-            } catch (e: Exception) {
-                val msg = e.message
-                _moviesUIState.update { it.copy(isLoading = false, error = msg) }
-            }
+        viewModelScope.launch(coroutineExceptionHandler) {
+            _moviesUIState.update { it.copy(isLoading = true) }
+            refreshMoviesUseCase()
+            _moviesUIState.update { it.copy(isLoading = false) }
         }
     }
 
