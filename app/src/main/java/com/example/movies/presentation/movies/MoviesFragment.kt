@@ -44,9 +44,9 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.moviesUIState.collect {
-                    binding?.swipeView?.isRefreshing = it.isLoading
-                    adapter.submitList(it.movies)
+                viewModel.moviesPagingData.collect {
+//                    binding?.swipeView?.isRefreshing = it.pagingMovies
+                    adapter.submitData(it)
                 }
             }
         }

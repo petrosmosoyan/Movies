@@ -22,6 +22,8 @@ retrofit = "3.0.0"
 converter_gson = "3.0.0"
 logging_interceptor = "5.3.2"
 
+paging_version = "3.4.2"
+
 glide = "5.0.5"
 
 [libraries]
@@ -46,11 +48,14 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.r
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-common = { group = "androidx.room", name = "room-common", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "converter_gson" }
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "logging_interceptor" }
+
+paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging_version" }
 
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 

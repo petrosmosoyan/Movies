@@ -2,6 +2,7 @@ package com.example.movies.presentation.movies
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.cachedIn
 import com.example.movies.domain.use_case.MoviesUseCase
 import com.example.movies.domain.use_case.RefreshMoviesUseCase
 import com.example.movies.domain.use_case.ToggleFavoriteUseCase
@@ -26,6 +27,8 @@ class MoviesViewModel @Inject constructor(
     private val _moviesUIState = MutableStateFlow(MoviesUiState())
     val moviesUIState = _moviesUIState.asStateFlow()
 
+    val moviesPagingData = moviesUseCase().cachedIn(viewModelScope)
+
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         _moviesUIState.update { it.copy(isLoading = false, error = throwable.message) }
     }
@@ -38,7 +41,7 @@ class MoviesViewModel @Inject constructor(
     fun getMovies() {
         moviesUseCase()
             .onEach { movies ->
-                _moviesUIState.update { it.copy(movies = movies) }
+                _moviesUIState.update { it.copy(pagingMovies = movies) }
             }
             .launchIn(viewModelScope)
     }

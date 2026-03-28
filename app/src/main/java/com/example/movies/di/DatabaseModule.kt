@@ -2,9 +2,9 @@ package com.example.movies.di
 
 import android.content.Context
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.example.movies.data.local.dao.FavoriteDao
 import com.example.movies.data.local.dao.MovieDao
+import com.example.movies.data.local.dao.RemoteKeyDao
 import com.example.movies.data.local.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -31,4 +31,8 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun provideFavoriteDao(appDatabase: AppDatabase): FavoriteDao = appDatabase.favoriteDao()
+
+    @Provides
+    @Singleton
+    fun provideRemoteKeyDao(appDatabase: AppDatabase): RemoteKeyDao = appDatabase.remoteKeyDao()
 }

@@ -16,7 +16,7 @@ class DetailsDto(
     @SerializedName("homepage")
     val homepage: String? = null,
     @SerializedName("id")
-    val id: Int? = null,
+    val id: Int,
     @SerializedName("imdb_id")
     val imdbId: String? = null,
     @SerializedName("origin_country")

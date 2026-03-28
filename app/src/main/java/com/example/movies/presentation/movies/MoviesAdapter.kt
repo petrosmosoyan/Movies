@@ -2,8 +2,8 @@ package com.example.movies.presentation.movies
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movies.R
@@ -13,7 +13,7 @@ import com.example.movies.domain.model.Movie
 class MoviesAdapter(
     val onItemClick: (Int) -> Unit,
     val onFavoriteClick: (Int) -> Unit
-) : ListAdapter<Movie, MoviesAdapter.MyViewHolder>(MoviesDiffUtil()) {
+) : PagingDataAdapter<Movie, MoviesAdapter.MyViewHolder>(MoviesDiffUtil()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,11 +23,8 @@ class MoviesAdapter(
         return MyViewHolder(binding, onItemClick, onFavoriteClick)
     }
 
-    override fun onBindViewHolder(
-        holder: MyViewHolder,
-        p1: Int
-    ) {
-        holder.bind(getItem(p1))
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        getItem(position)?.let { holder.bind(it) }
     }
 
     class MyViewHolder(
@@ -48,10 +45,10 @@ class MoviesAdapter(
                 favorite.setImageResource(favoriteIcon)
 
                 root.setOnClickListener {
-                    onItemClick(item.id ?: return@setOnClickListener)
+                    onItemClick(item.id)
                 }
                 favorite.setOnClickListener {
-                    onFavoriteClick(item.id ?: return@setOnClickListener)
+                    onFavoriteClick(item.id)
                 }
             }
         }

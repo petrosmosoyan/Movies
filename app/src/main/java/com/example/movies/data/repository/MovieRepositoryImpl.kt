@@ -1,9 +1,16 @@
 package com.example.movies.data.repository
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.example.movies.data.local.dao.MovieDao
+import com.example.movies.data.local.database.AppDatabase
 import com.example.movies.data.mapper.toDetails
 import com.example.movies.data.mapper.toEntity
 import com.example.movies.data.mapper.toMovie
+import com.example.movies.data.paging.MovieRemoteMediator
 import com.example.movies.data.remote.api.MovieApi
 import com.example.movies.domain.model.Details
 import com.example.movies.domain.model.Movie
@@ -13,6 +20,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
+    private val appDatabase: AppDatabase,
     private val movieApi: MovieApi,
     private val movieDao: MovieDao,
 ) : MovieRepository {
@@ -28,8 +36,23 @@ class MovieRepositoryImpl @Inject constructor(
         movieDao.updateMovie(response.toEntity())
     }
 
-    override fun getMovies(): Flow<List<Movie>> = movieDao.getMovies().map { list ->
-        list.map { it.toMovie() }
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getMoviesPaging(): Flow<PagingData<Movie>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                prefetchDistance = 5,
+            ),
+            remoteMediator = MovieRemoteMediator(
+                movieApi = movieApi,
+                appDatabase = appDatabase
+            ),
+            pagingSourceFactory = {
+                appDatabase.moviesDao().moviesPaging()
+            }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toMovie() }
+        }
     }
 
     override fun getMovieDetails(movieId: Int): Flow<Details> =
