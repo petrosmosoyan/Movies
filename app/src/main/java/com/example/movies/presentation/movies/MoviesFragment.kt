@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.example.movies.R
 import com.example.movies.databinding.FragmentMoviesBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,7 +53,15 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
     }
 
     private fun navigateToDetails(id: Int) {
-
+//        val options = navOptions {
+//            anim {
+//                enter = androidx.navigation.ui.R.anim.nav_default_enter_anim
+//                exit = androidx.navigation.ui.R.anim.nav_default_exit_anim
+//                popEnter = androidx.navigation.ui.R.anim.nav_default_pop_enter_anim
+//                popExit = androidx.navigation.ui.R.anim.nav_default_pop_exit_anim
+//            }
+//        }
+        findNavController().navigate(R.id.nav_details)
     }
 
     override fun onDestroyView() {

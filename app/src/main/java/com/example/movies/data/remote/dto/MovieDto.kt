@@ -2,7 +2,7 @@ package com.example.movies.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieDto(
+class MovieDto(
     @SerializedName("adult")
     val adult: Boolean? = null,
     @SerializedName("backdrop_path")

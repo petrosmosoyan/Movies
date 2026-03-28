@@ -1,8 +1,7 @@
 package com.example.movies.domain.model
 
-data class Movie(
+data class Favorite(
     val id: Int?,
     val title: String?,
-    val poster: String?,
-    val isFavorite: Boolean = false
+    val poster: String?
 )

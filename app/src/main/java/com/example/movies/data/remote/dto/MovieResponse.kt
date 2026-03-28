@@ -2,7 +2,7 @@ package com.example.movies.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieResponse(
+class MovieResponse(
     @SerializedName("page")
     val page: Int? = null,
     @SerializedName("results")
