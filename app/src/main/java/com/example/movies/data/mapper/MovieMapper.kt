@@ -1,6 +1,7 @@
 package com.example.movies.data.mapper
 
 import com.example.movies.data.local.entity.MovieEntity
+import com.example.movies.data.local.model.MovieWithFavorite
 import com.example.movies.data.remote.dto.details.DetailsDto
 import com.example.movies.data.remote.dto.movies.MovieDto
 import com.example.movies.domain.model.Details
@@ -32,29 +33,31 @@ fun DetailsDto.toEntity(orderIndex: Int) = MovieEntity(
     homePage = homepage
 )
 
-fun MovieEntity.toMovie(): Movie = Movie(
-    id = id,
-    title = title,
-    posterPath = "https://image.tmdb.org/t/p/w500$posterPath",
-    releaseDate = releaseDate,
+fun MovieWithFavorite.toMovie(): Movie = Movie(
+    id = movie.id,
+    title = movie.title,
+    posterPath = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+    releaseDate = movie.releaseDate,
+    isFavorite = isFavorite
 )
 
-fun MovieEntity.toFavorite(): Favorite = Favorite(
-    id = id,
-    title = title,
-    posterPath = "https://image.tmdb.org/t/p/w500$posterPath",
-    releaseDate = releaseDate,
-    voteAverage = voteAverage
+fun MovieWithFavorite.toFavorite(): Favorite = Favorite(
+    id = movie.id,
+    title = movie.title,
+    posterPath = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+    releaseDate = movie.releaseDate,
+    voteAverage = movie.voteAverage
 )
 
-fun MovieEntity.toDetails(): Details = Details(
-    title = title,
-    overview = overview,
-    posterPath = "https://image.tmdb.org/t/p/w500$posterPath",
-    backdropPath = "https://image.tmdb.org/t/p/w500$backdropPath",
-    releaseDate = releaseDate,
-    voteAverage = voteAverage,
-    budget = budget,
-    revenue = revenue,
-    homePage = homePage,
+fun MovieWithFavorite.toDetails(): Details = Details(
+    title = movie.title,
+    overview = movie.overview,
+    posterPath = "https://image.tmdb.org/t/p/w500${movie.posterPath}",
+    backdropPath = "https://image.tmdb.org/t/p/w500${movie.backdropPath}",
+    releaseDate = movie.releaseDate,
+    voteAverage = movie.voteAverage,
+    budget = movie.budget,
+    revenue = movie.revenue,
+    homePage = movie.homePage,
+    isFavorite = isFavorite
 )

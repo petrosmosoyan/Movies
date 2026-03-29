@@ -6,7 +6,7 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.example.movies.data.local.database.AppDatabase
-import com.example.movies.data.local.entity.MovieEntity
+import com.example.movies.data.local.model.MovieWithFavorite
 import com.example.movies.data.local.entity.RemoteKeyEntity
 import com.example.movies.data.mapper.toEntity
 import com.example.movies.data.remote.api.MovieApi
@@ -17,10 +17,10 @@ import java.io.IOException
 class MovieRemoteMediator(
     private val movieApi: MovieApi,
     private val appDatabase: AppDatabase
-) : RemoteMediator<Int, MovieEntity>() {
-    override suspend fun load(
+) : RemoteMediator<Int, MovieWithFavorite>() {
+    override suspend fun load   (
         loadType: LoadType,
-        state: PagingState<Int, MovieEntity>
+        state: PagingState<Int, MovieWithFavorite>
     ): MediatorResult {
         return try {
             val loadKey = when (loadType) {
@@ -72,7 +72,7 @@ class MovieRemoteMediator(
     }
 
     private suspend fun getRemoteKeyForLastItem(
-        state: PagingState<Int, MovieEntity>
+        state: PagingState<Int, MovieWithFavorite>
     ): RemoteKeyEntity? {
 
         return state.pages
@@ -80,7 +80,7 @@ class MovieRemoteMediator(
             ?.data
             ?.lastOrNull()
             ?.let { movie ->
-                appDatabase.remoteKeyDao().getRemoteKeyByMovieId(movie.id)
+                appDatabase.remoteKeyDao().getRemoteKeyByMovieId(movie.movie.id)
             }
     }
 }

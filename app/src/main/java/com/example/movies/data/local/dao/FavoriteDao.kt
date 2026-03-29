@@ -5,13 +5,9 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.movies.data.local.entity.FavoriteEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavoriteDao {
-
-    @Query("SELECT * FROM favorites")
-    fun getFavoritesIds(): Flow<List<FavoriteEntity>>
 
     @Insert
     fun addFavorite(item: FavoriteEntity)

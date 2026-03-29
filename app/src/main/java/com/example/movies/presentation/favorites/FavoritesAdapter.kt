@@ -41,11 +41,11 @@ class FavoritesAdapter(val onItemClick: (Int) -> Unit, val onDeleteClick: (Int) 
                 Glide.with(root.context).load(item.posterPath).into(poster)
 
                 root.setOnClickListener {
-                    onItemClick(item.id ?: return@setOnClickListener)
+                    onItemClick(item.id)
                 }
 
                 deleteFavorite.setOnClickListener {
-                    onDeleteClick(item.id ?: return@setOnClickListener)
+                    onDeleteClick(item.id)
                 }
             }
         }

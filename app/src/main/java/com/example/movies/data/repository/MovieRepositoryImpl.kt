@@ -9,10 +9,12 @@ import com.example.movies.data.local.dao.MovieDao
 import com.example.movies.data.local.database.AppDatabase
 import com.example.movies.data.mapper.toDetails
 import com.example.movies.data.mapper.toEntity
+import com.example.movies.data.mapper.toFavorite
 import com.example.movies.data.mapper.toMovie
 import com.example.movies.data.paging.MovieRemoteMediator
 import com.example.movies.data.remote.api.MovieApi
 import com.example.movies.domain.model.Details
+import com.example.movies.domain.model.Favorite
 import com.example.movies.domain.model.Movie
 import com.example.movies.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
@@ -27,7 +29,9 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun refreshMovieDetails(movieId: Int) {
         val response = movieApi.getDetails(movieId = movieId)
-        movieDao.updateMovie(response.toEntity(0))
+        val movie = movieDao.getMovieById(movieId)
+
+        movieDao.updateMovie(response.toEntity(movie.orderIndex))
     }
 
     @OptIn(ExperimentalPagingApi::class)
@@ -52,4 +56,9 @@ class MovieRepositoryImpl @Inject constructor(
 
     override fun getMovieDetails(movieId: Int): Flow<Details> =
         movieDao.getMovieDetails(movieId).map { it.toDetails() }
+
+    override fun getFavoriteMovies(): Flow<List<Favorite>> =
+        movieDao.getFavoriteMovies().map { list ->
+            list.map { it.toFavorite() }
+        }
 }
