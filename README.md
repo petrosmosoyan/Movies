@@ -61,4 +61,3 @@ To protect sensitive data, the API key is not included in the source code.
 ## 📈 Future Improvements
 - **Unit Testing**: Adding tests for UseCases using JUnit and Turbine.
 - **Search**: Implementation of a search feature using the Paging 3 source.
-- **Shimmer**: Adding shimmer effects for a better initial loading experience.
