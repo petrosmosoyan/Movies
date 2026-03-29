@@ -7,4 +7,7 @@
     <string name="budget">Budget</string>
     <string name="overview">Overview</string>
     <string name="revenue">Revenue</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="retry">Retry</string>
+    <string name="no_movies_found">No movies found</string>
 </resources>

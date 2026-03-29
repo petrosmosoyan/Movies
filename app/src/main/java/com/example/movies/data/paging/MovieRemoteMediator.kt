@@ -29,7 +29,6 @@ class MovieRemoteMediator(
                 LoadType.APPEND -> {
                     val remoteKeys = getRemoteKeyForLastItem(state)
 
-                    // 2. Get next page key
                     val nextKey = remoteKeys?.nextKey ?: return MediatorResult.Success(
                         endOfPaginationReached = remoteKeys != null
                     )
@@ -53,7 +52,7 @@ class MovieRemoteMediator(
                 } ?: emptyList()
 
                 val movies = result.movieDtos?.mapIndexed { index, dto ->
-                    val position = ((loadKey - 1) * 20) + index // Assuming 20 items per page
+                    val position = ((loadKey - 1) * 20) + index
                     dto.toEntity(orderIndex = position)
                 }
 
