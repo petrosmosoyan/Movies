@@ -46,6 +46,9 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.favoriteUIState.collect { state ->
                     adapter.submitList(state.favorites)
+
+                    binding?.emptyText?.visibility =
+                        if (state.favorites?.isEmpty() == true) View.VISIBLE else View.GONE
                 }
             }
         }
