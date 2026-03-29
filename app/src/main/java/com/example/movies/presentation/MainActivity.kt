@@ -1,6 +1,7 @@
 package com.example.movies.presentation
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -23,6 +24,11 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.fragmentContainerView) as NavHostFragment
         val navController = navHostFragment.navController
         binding?.bottomNavView?.setupWithNavController(navController)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding?.bottomNavView?.visibility =
+                if (destination.id == R.id.detailsFragment) View.GONE else View.VISIBLE
+        }
     }
 
     override fun onDestroy() {
